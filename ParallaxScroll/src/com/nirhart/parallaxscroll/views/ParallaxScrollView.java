@@ -39,11 +39,23 @@ public class ParallaxScrollView extends ScrollView {
 	
 	protected void init(Context context, AttributeSet attrs) {
 		TypedArray typeArray = context.obtainStyledAttributes(attrs, R.styleable.ParallaxScroll);
-		this.parallaxFactor = typeArray.getFloat(R.styleable.ParallaxScroll_parallax_factor, DEFAULT_PARALLAX_FACTOR);
-		this.alphaFactor = typeArray.getFloat(R.styleable.ParallaxScroll_alpha_factor, DEFAULT_ALPHA_FACTOR);
-		this.innerParallaxFactor = typeArray.getFloat(R.styleable.ParallaxScroll_inner_parallax_factor, DEFAULT_INNER_PARALLAX_FACTOR);
-		this.numOfParallaxViews = typeArray.getInt(R.styleable.ParallaxScroll_parallax_views_num, DEFAULT_PARALLAX_VIEWS);
-		typeArray.recycle();
+		try {
+			int attr;
+			for (int i=0; i<typeArray.getIndexCount(); i++){
+				attr = typeArray.getIndex(i);
+				if (attr == R.styleable.ParallaxScroll_parallax_factor)
+					this.parallaxFactor = typeArray.getFloat(attr, DEFAULT_PARALLAX_FACTOR);
+				else if (attr == R.styleable.ParallaxScroll_alpha_factor)
+					this.alphaFactor = typeArray.getFloat(attr, DEFAULT_ALPHA_FACTOR);
+				else if (attr == R.styleable.ParallaxScroll_inner_parallax_factor)
+					this.innerParallaxFactor = typeArray.getFloat(attr, DEFAULT_INNER_PARALLAX_FACTOR);
+				else if (attr == R.styleable.ParallaxScroll_parallax_views_num)
+					this.numOfParallaxViews = typeArray.getInt(attr, DEFAULT_PARALLAX_VIEWS);
+			}
+		} finally {
+			typeArray.recycle();
+		}
+
 	}
 	
 	@Override
